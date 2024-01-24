@@ -1,5 +1,6 @@
 Simulador de Comunicación en C++ (Programación Orientada a Objetos TC1030)
 
+
 Vivimos en un mundo donde las revoluciones tecnológicas ocurren todos los días.
 Una de las revoluciones más importantes fue, sin lugar a dudas, los sistemas de
 comunicación celular
