@@ -1,0 +1,36 @@
+Operator 0 : 315 107 124.45
+Operator 1 : 64 17 0.00
+Operator 2 : 49 34 18.41
+Operator 3 : 212 58 99.78
+Operator 4 : 164 82 60.61
+Operator 5 : 234 69 98.02
+Operator 6 : 290 179 136.08
+Operator 7 : 200 68 68.98
+Operator 8 : 217 153 108.81
+Operator 9 : 105 106 155.35
+Operator 10 : 383 170 156.03
+Operator 11 : 199 95 138.76
+Operator 12 : 192 45 120.80
+Operator 13 : 218 57 93.09
+Operator 14 : 152 105 113.97
+Operator 15 : 484 230 300.99
+Operator 16 : 293 170 140.85
+Operator 17 : 230 101 115.52
+Customer 0 : 255.71 43.61
+Customer 1 : 136.87 34.76
+Customer 2 : 96.94 65.62
+Customer 3 : 135.89 89.69
+Customer 4 : 124.06 108.87
+Customer 5 : 174.97 41.54
+Customer 6 : 172.87 62.86
+Customer 7 : 96.48 129.71
+Customer 8 : 173.78 16.20
+Customer 9 : 100.86 138.07
+Customer 10 : 151.09 26.29
+Customer 11 : 120.77 120.86
+Customer 12 : 158.81 39.58
+Customer 13 : 89.12 110.02
+Customer 14 : 153.70 0.24
+a : 222
+f : 177
+a : 234.00
