@@ -1,0 +1,269 @@
+﻿Clear
+
+Load  SIZE // Carga el tamaño de los datos registrados
+Store ICTR // Se almacenan en el contador
+
+// Solo recibe valores en decimal
+input, Input / Recibe un input
+  StoreI AUXPTR // Lo almacena en la dirección de memmoria de AUXPTR
+  
+  Load 	OVER / Carga el valor del error overheat
+  Store ERROR // Lo almacena en la variable de ERROR
+   
+  LoadI AUXPTR // Carga el valor en la direccion de memoria de AUXPTR
+  Subt 	MAXVAL // Resta el valor máximo para saber si el número no és mayor a 150 grados
+  Skipcond  000 // Si se obtiene un número negativo, salta la condicón
+  Jump 	msj // Solo puede ingresar a la condición si el número es mayor a 150 grados
+  
+  Load 	LOW // Carga el valor del error low temperature
+  Store ERROR // Lo almacena en la variable ERROR
+  
+  LoadI AUXPTR // Carga el valor en la direccion de memoria de AUXPTR
+  Subt 	MINVAL // Se resta el valor mínimo que puede tener la temperatura del motor
+  Skipcond  800 // Salta la condición si la temperatura no se encuentra en el valor mínimo
+  Jump 	msj // Si la temperatura es muy baja, entonces salta a msj
+  
+  Load 	CHECK // Carga el valor del error de check engine
+  Store ERROR // Se almacena en la variable ERROR
+  
+  LoadI AUXPTR // Carga el valor en la direccion de memoria de AUXPTR
+  Subt 	HIGHVAL // Se le resta el valor alto que puede tener la temperatura del motor
+  Skipcond  000 // Si la temperatura el menor a una temperatura alta, salta la siguiente condición
+  Jump 	msj // Si la temperatura es alta, entonces salta a msj
+
+  Load 	AUXPTR // Carga la dirección de memoria de AUXPTR
+  Add 	ONE // Recorre una posición adelante
+  Store AUXPTR // Guarda esa nueva posición
+
+  Load 	ICTR // Carga el contador que inicia en 20
+  Subt 	ONE // Le resta uno
+  Store ICTR // Guarda el contador
+
+Skipcond 400 // Si el contador es igual a 0, salta la condición
+Jump input // Ingresa si el contador sigue siendo mayor a 0
+
+Load  SIZE // Carga el tamaño del arreglo de datos
+Store ICTR // Lo guarda en el contador
+
+mult, LoadI PTR // Carga el dato almacenado en la memoria de PTR
+  Store JCTR // Almacena en la variable en el contador
+
+  Load 	ONE // Carga el numero uno
+  Subt 	ONE // Se resta así mismo el uno para obtener un zero
+  Store SUM // Se guarda en la variable de suma
+
+percent, Load SUM / Carga el valor de la suma
+  Add 	PERCENTAGE // Se le suma el valor máximo del porcentaje
+  Store SUM // Guarda el nuevo valor de la suma
+
+  Load 	JCTR // Carga el valor del contador
+  Subt 	ONE // Se le resta uno
+  Store JCTR // Guarda el nuevo valor del contador
+   
+Skipcond 400 // Si el contador es igual a 0, salta la siguiente condición
+Jump percent // Salta a percent si el contador sigue siendo mayor a 0
+   
+  Load 	 SUM // Carga el valor de la suma
+  StoreI PTR // Se guarda la suma en el apuntador
+  
+  Load 	PTR // Se carga el apuntador
+  Add 	ONE // Se le suma uno para obtener el siguiente dato
+  Store PTR // Guarda el nuevo valor del apuntador
+  
+  Load	ICTR // Carga el contador
+  Subt 	ONE // Se le resta uno
+  Store ICTR // Guarda el nuevo valor del apuntador
+    
+Skipcond 400 // Salta la condición si el valor del contador es igual a 0
+Jump  mult // Ingresa aquí si el contador es mayor a 0
+
+Load  SIZE // Carga el tamaño del arreglo de datos
+Store ICTR // Se guarda en el apuntador
+
+div, Load ONE // Se carga el numero uno
+Subt 	ONE // Se resta así mismo para generar 0
+Store 	SUM // Se guarda en la variable suma
+  
+sub,   Load SUM // Carga el valor de la suma
+  Add 	 ONE // Suma uno
+  Store  SUM // Guarda el nuevo valor de la suma
+
+  LoadI  APTR // Carga el valor del apuntador APTR
+  Subt 	 MAXVAL // Se le resta el valor máximo que puede llegar la temperatura
+  Skipcond  800 // Salta la condición si el valor del apuntador no es negativo
+  Jump 	 nextdiv // Salta a nextdiv si el valor del apuntador es negativo
+  StoreI APTR // Guarda el dato en la dirección de memoria del apuntador
+    
+Skipcond 400 // Si el valor del apuntador es igual a 0, salta la siguiente condición
+Jump sub // Salta a sub si el valor del apuntador es mayor a 0
+  
+nextdiv, Load  SUM / Carga el valor de la suma
+  StoreI APTR // Se guarda en la dirección de memoria del apuntador
+  Output // Se muestra el valor del dato
+  
+  Load 	 APTR // Carga el apuntador
+  Add 	 ONE // Se le suma uno para obtener la siguiente posición
+  Store  APTR // Guarda el apuntador
+  
+  Load 	 ICTR // Carga el contador
+  Subt 	 ONE // Resta uno
+  Store  ICTR // Guarda el contador
+
+Skipcond 400 // Salta la condición si el valor del contador es igual a 0
+Jump div // Vuelve a div si el contador es positivo
+
+Jump end // Salta al final del código
+
+// Aquí solo se puede llegar si el valor ingresado no se encuentra en el rango
+msj, Load 	ERROR // Carga el valor del error
+Subt 	OVER // Resta el valor del error de overheat
+Skipcond 800 // Si el error es mayor a 0, salta la siguiente condición
+Jump overheat // Salta a overheat si el error es ese
+
+Load 	ERROR // Carga el valor del error
+Subt 	LOW // Resta el valor del error de low temperature
+Skipcond 800 // Si el error es mayor a 0, salta la siguiente condición
+Jump lowtemp // Salta a lowtemp si el error es ese
+
+Load 	ERROR // Carga el valor del error
+Subt 	CHECK // Resta el valor del error de check engine
+Skipcond 800 // Si el error es mayor a 0, salta la siguiente condición
+Jump checkengine // Salta a checkengine si el error es ese
+
+overheat, LoadI OVERPTR // Carga el valor de la direccion de memoria del mensaje
+  Output / Realiza un output
+
+  Load 	OVERPTR // Carga el valor del puntero
+  Add 	ONE // Recorre una dirección de memoria hacia adelante
+  Store OVERPTR // Guarda el nuevo valor del puntero
+
+  Load 	OVERLEN // Carga el tamaño del mensaje
+  Subt 	ONE // Se le resta uno
+  Store OVERLEN // Guarda el nuevo valor del tamaño del mensaje
+
+Skipcond 400 // Salta la condicion si el tamaño del mensaje es igual a 0
+Jump 	overheat // Vuelve a overheat si el tamaño del mensaje es mayor a 0
+
+Jump end // Salta al final del código
+
+lowtemp, LoadI LOWPTR // Carga el valor de la direccion de memoria del mensaje
+  Output / Realiza un output
+
+  Load 	LOWPTR // Carga el valor del puntero
+  Add 	ONE // Recorre una dirección de memoria hacia adelante
+  Store LOWPTR // Guarda el nuevo valor del puntero
+
+  Load 	LOWLEN // Carga el tamaño del mensaje
+  Subt 	ONE // Se le resta uno
+  Store LOWLEN // Guarda el nuevo valor del tamaño del mensaje
+
+Skipcond 400 // Salta la condicion si el tamaño del mensaje es igual a 0
+Jump 	lowtemp // Vuelve a lowtemp si el tamaño del mensaje es mayor a 0
+
+Jump end // Salta al final del código
+
+checkengine, LoadI CHECKPTR // Carga el valor de la direccion de memoria del mensaje
+  Output / Realiza un output
+
+  Load 	CHECKPTR // Carga el valor del puntero
+  Add 	ONE // Recorre una dirección de memoria hacia adelante
+  Store CHECKPTR // Guarda el nuevo valor del puntero
+
+  Load 	CHECKLEN // Carga el tamaño del mensaje
+  Subt 	ONE // Se le resta uno
+  Store CHECKLEN // Guarda el nuevo valor del tamaño del mensaje
+
+Skipcond 400 // Salta la condicion si el tamaño del mensaje es igual a 0
+Jump 	checkengine // Vuelve a checkengine si el tamaño del mensaje es mayor a 0
+
+Jump end // Salta al final del código
+
+end, Halt / Fin del código
+
+// 20 datos registrados de los 4 sensores de temperatura
+NUMS, DEC 0
+	DEC 0
+    DEC 0
+    DEC 0
+    DEC 0
+    DEC 0
+    DEC 0
+    DEC 0
+    DEC 0
+    DEC 0
+    DEC 0
+	DEC 0
+    DEC 0
+    DEC 0
+    DEC 0
+    DEC 0
+    DEC 0
+    DEC 0
+    DEC 0
+    DEC 0
+    DEC 0
+    
+SIZE, 		DEC 20 // Tamaño de los datos registrados
+ICTR, 		DEC 0 // Contador
+JCTR,		DEC 0 // Contador
+ONE, 		DEC 1 // Variable con valor decimal 1
+SENSORS, 	DEC 4 // Número de sensores de temperatura
+MINVAL, 	DEC 6 // Valor mínimo que un motor puede tener de temperatura
+HIGHVAL,	DEC 10 // Valor alto de la temperatura del motor
+MAXVAL, 	DEC 15 // El valor máximo que puede tener la temperatura es de 150 grados centigrados
+SUM, 		DEC 0 // Variable para almacenar la suma de las multiplicaciones
+PTR, 		ADR NUMS // Apuntador a las variables de los datos registrados
+AUXPTR, 	ADR NUMS // Apuntador auxiliar
+APTR,		ADR NUMS // Apuntador auxiliar
+PERCENTAGE, DEC 100 // Porcentaje máximo de la temperatura
+
+// Lista de errores
+ERROR, 		DEC 0
+OVER,  		DEC 1
+LOW,   		DEC 2
+CHECK,		DEC 3
+
+// Los siguientes son los mensajes de cada error
+// Solo se pueden mostrar en UNICODE
+OVERMSJ, HEX 4F 
+    HEX 56 
+    HEX 45 
+    HEX 52 
+    HEX 48 
+    HEX 45 
+    HEX 41 
+    HEX 54 
+    HEX 21
+
+OVERLEN, DEC 9
+OVERPTR,	ADR OVERMSJ
+
+LOWMSJ, HEX 4C 
+    HEX 4F 
+    HEX 57 
+    HEX 20 
+    HEX 54 
+    HEX 45 
+    HEX 4D 
+    HEX 50 
+    HEX 21
+
+LOWLEN, DEC 9
+LOWPTR,	ADR LOWMSJ
+
+CHECKMSJ, HEX 43 
+    HEX 48 
+    HEX 45 
+    HEX 43 
+    HEX 4B 
+    HEX 20 
+    HEX 45 
+    HEX 4E 
+    HEX 47 
+    HEX 49 
+    HEX 4E 
+    HEX 45 
+    HEX 21
+
+CHECKLEN, DEC 13
+CHECKPTR, ADR CHECKMSJ
